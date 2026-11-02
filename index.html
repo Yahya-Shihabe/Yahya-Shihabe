@@ -612,19 +612,17 @@
       color: #2D5F4E;
     }
     .tech-mark svg { width: 18px; height: 18px; fill: currentColor; }
-    /* the Hermes lockup, masked so it takes the site green */
-    .tech-wordmark {
-      flex: none;
-      width: 84px;
-      height: 42px;
+    /* the Hermes lockup, inside the same 34px tile as every other mark */
+    .tech-mark.is-wordmark::before {
+      content: '';
+      width: 82%; height: 82%;
       background: currentColor;
-      color: #2D5F4E;
       -webkit-mask-image: url("assets/hermes-wordmark.png");
       mask-image: url("assets/hermes-wordmark.png");
       -webkit-mask-size: contain;
       mask-size: contain;
-      -webkit-mask-position: left center;
-      mask-position: left center;
+      -webkit-mask-position: center;
+      mask-position: center;
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
     }
@@ -1267,7 +1265,7 @@
         <span class="tech-copy"><span class="tech-name">Claude Code</span><span class="tech-role">Build tooling</span></span>
       </div>
       <div class="reveal d4 tech-card">
-        <span class="tech-wordmark" role="img" aria-label="Hermes Agent"></span>
+        <span class="tech-mark is-wordmark" role="img" aria-label="Hermes Agent"></span>
         <span class="tech-copy"><span class="tech-role">Build tooling</span></span>
       </div>
       <div class="reveal d1 tech-card">
@@ -1796,7 +1794,7 @@
         <span class="tech-copy"><span class="tech-name">Claude Code</span><span class="tech-role">Agentmilj&#246;</span></span>
       </div>
       <div class="reveal d4 tech-card">
-        <span class="tech-wordmark" role="img" aria-label="Hermes Agent"></span>
+        <span class="tech-mark is-wordmark" role="img" aria-label="Hermes Agent"></span>
         <span class="tech-copy"><span class="tech-role">Agentmilj&#246;</span></span>
       </div>
       <div class="reveal d1 tech-card">
