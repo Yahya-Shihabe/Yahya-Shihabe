@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yahya-shihabe.pages.dev/sitemap.xml

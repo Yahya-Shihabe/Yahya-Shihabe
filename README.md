@@ -1,93 +1,82 @@
 # yahya-shihabe.pages.dev
 
-**Portfolio & agency proof hub** - bilingual (English/Swedish) landing page that features public showcase projects alongside live Swedish SMB proof-of-concept demos.
+Personal site for Yahya Shihabe, AI consultant in Sweden. One static page, bilingual
+(English / Swedish), positioned at small Swedish businesses that lose enquiries and do
+their admin by hand.
 
 Live site: [yahya-shihabe.pages.dev](https://yahya-shihabe.pages.dev)
 
 ---
 
-## What this is
+## What is on the page
 
-This is Showcase 3 in a portfolio proof roadmap. It serves two audiences from a single page:
+| Section | English | Swedish |
+|---|---|---|
+| Hero | Outcome first: answers every enquiry, takes the admin off your desk | same |
+| Selected work | Two live builds, public source | samma |
+| Services | Four fixed-scope offers | fyra tjänster |
+| How I work | Diagnose, scope, build, hand over | diagnos, omfattning, bygge, överlämning |
+| About | Who, how, what you get | om mig |
+| Contact + booking | Cal.com inline embed | boka |
 
-| Audience | Language | What they see |
-|----------|----------|---------------|
-| **Remote employers** | English | Project portfolio (Showcase 1 & 2), tech stack, architecture, deployed demos, SMB demo concepts |
-| **Swedish SMB prospects** | Swedish | Service pitch, 3 live proof-of-concept websites (Bilexperten, Piteå Hud, Västernorrland Skog & Städ), process, about |
+A language toggle (EN / SV) swaps the sections, nav labels, CTAs and the page metadata.
+Swedish is also reachable directly at `/?lang=sv`, which the canonical and `hreflang` tags
+point at.
 
-A language toggle (EN / SV) switches the view with a fade transition, and all shared UI elements (nav labels, CTAs, booking section) update text via `data-i18n` attributes.
-
-## Architecture
-
-This is a **single static HTML file** deployed on Cloudflare Pages - no build step, no framework, no runtime dependencies.
+## Files
 
 ```
-index.html
-├── Tailwind CSS (CDN) - utility styling
-├── Fraunces + Inter (Google Fonts) - display and body type
-├── Cal.com embed - booking widget
-└── i18n.js (inline) - language toggle and scroll-reveal
+index.html      the whole site: markup, styles, i18n, Cal.com embed
+404.html        error page
+robots.txt      allow all, absolute sitemap URL
+sitemap.xml     both language URLs, with hreflang alternates
+og.png          1200x630 social card
+favicon.svg     YS monogram
 ```
+
+No build step, no framework, no runtime dependencies. Styling is Tailwind (CDN) with
+Fraunces and Inter from Google Fonts, plus a small block of custom CSS in `index.html`.
 
 ## Featured projects
 
-The English portfolio section links to two public proof projects:
+| Project | Live | Source |
+|---|---|---|
+| AI Receptionist & Lead Capture | [demo](https://ai-receptionist-demo.yahya-shehabi01.workers.dev) | [repo](https://github.com/Yahya-Shihabe/ai-receptionist-demo) |
+| Agent Workflow Playground | [demo](https://agent-workflow-playground.yahya-shehabi01.workers.dev) | [repo](https://github.com/Yahya-Shihabe/agent-workflow-playground) |
 
-| Project | Live demo | GitHub |
-|---------|-----------|--------|
-| **[AI Receptionist & Lead Capture](https://ai-receptionist-demo.yahya-shehabi01.workers.dev)** | Chat widget + D1 persistence + owner dashboard | [06Yahya/ai-receptionist-demo](https://github.com/06Yahya/ai-receptionist-demo) |
-| **[Agent Workflow Playground](https://agent-workflow-playground.yahya-shehabi01.workers.dev)** | 3 workflows: prospect research, CRM enrichment, follow-up drafting | [06Yahya/agent-workflow-playground](https://github.com/06Yahya/agent-workflow-playground) |
+Card screenshots are loaded from each repo's `docs/screenshots/` directory.
 
-Screenshots for both projects are loaded from the respective GitHub repos' `docs/screenshots/` directories.
-
-## SMB demos
-
-Three live Cloudflare Pages proof-of-concept websites for Swedish local-business niches. Each card uses a fresh local screenshot and links to the deployed demo.
-
-- **[Bilexperten](https://bilexperten-poc.pages.dev)** - `/assets/demo-bilexperten.png` (car dealer and workshop, Motala)
-- **[Piteå Hud & Skönhetsvård](https://pitehud-poc.pages.dev)** - `/assets/demo-pitehud.png` (skincare clinic, Piteå)
-- **[Västernorrland Skog & Städ](https://preview-vasternorrland-skog-stad.pages.dev)** - `/assets/demo-vasternorrland-skog-stad.png` (cleaning and forestry, Timrå)
-
-## Verification
-
-To validate a clean deploy:
-
-1. Load `https://yahya-shihabe.pages.dev` - English portfolio view renders with no console errors
-2. Click `SV` toggle - all content switches to Swedish, nav labels and CTAs change
-3. Click `EN` toggle - English content restores
-4. Check `#projects` section - two project cards visible with live demo links
-5. Check `#client-work` section - three live POC cards visible and all demo links return 200
-6. Check `#contact` - Cal.com booking widget loads
-7. Check on mobile (390px viewport) - no horizontal overflow, sticky CTA visible
+Vox (macOS dictation) and Brains (agent workspace) are mentioned in a short note. Neither
+is public, so neither is presented as proof and neither has a link.
 
 ## Local development
 
 ```bash
-# No build step - open the file directly
-open index.html
-# Or serve with any static server for Cal.com embed to work
-python3 -m http.server 8000
+python3 -m http.server 8000     # a static server, so the Cal.com embed can load
 ```
 
 ## Deployment
 
-Cloudflare Pages auto-deploys from the `main` branch of `06Yahya/Yahya-Shihabe`.
+Cloudflare Pages, auto-deployed from `main`.
 
 ```bash
-git add index.html
-git commit -m "update: portfolio proof hub with EN/SV toggle"
+git add -A
+git commit -m "update: reposition as AI consultant"
 git push origin main
 ```
 
-The live site at `yahya-shihabe.pages.dev` updates within 60 seconds.
+Live within about a minute.
 
-## What this proves (for employers)
+## Checks that should pass
 
-- Cross-language UI with i18n architecture in a single static file
-- Public proof hub that aggregates and references deployed projects
-- Clean, accessible design with Tailwind and custom scroll-reveal
-- No build step, no framework - just HTML, CSS, and JS that ships
-- Deployed and inspectable end to end
+1. `GET /` returns 200 `text/html`; the English page renders with no console errors.
+2. `GET /robots.txt` returns 200 `text/plain`; `/sitemap.xml` returns 200 `application/xml`.
+3. `GET /og.png` returns 200 `image/png` and the artwork is legible at 1200x630.
+4. An unknown path returns 404 (serves `404.html`, not the homepage).
+5. `SV` toggle: Swedish sections show, English hides, `html lang` becomes `sv`, the title
+   and description swap, and every booking CTA lands on the Cal.com widget.
+6. At 390px width there is no horizontal overflow and the sticky "Book" bar is visible.
+7. External links resolve: both demo sites, both demo repos, the GitHub profile, Cal.com.
 
 ## License
 
