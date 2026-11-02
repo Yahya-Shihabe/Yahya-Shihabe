@@ -153,18 +153,6 @@
       overflow: hidden;
     }
 
-    /* Step decorative number */
-    .step-num {
-      font-family: 'Fraunces', serif;
-      font-size: 5.5rem;
-      font-weight: 700;
-      line-height: 1;
-      color: #C77A4A;
-      opacity: 0.5;
-      user-select: none;
-      pointer-events: none;
-    }
-
     /* Section divider */
     .rule {
       height: 1px;
@@ -253,25 +241,6 @@
       color: #1F2A24;
     }
 
-    /* Proof stat */
-    .proof-stat {
-      text-align: center;
-    }
-    .proof-stat .number {
-      font-family: 'Fraunces', serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #2D5F4E;
-      line-height: 1.1;
-    }
-    .proof-stat .label {
-      font-size: 0.75rem;
-      color: #5C6660;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 500;
-    }
-
     /* External link arrow */
     .ext-link {
       display: inline-flex;
@@ -293,6 +262,205 @@
     /* Mobile sticky */
     .mobile-sticky {
       transition: opacity 0.3s ease;
+    }
+
+    /* ============================================================
+       MOTION ROUND TWO
+       All values below are copied from animation-options-round2.html
+    ============================================================ */
+    :root { --m-fast: .16s; --m-swap: .36s; --m-ease: cubic-bezier(.16, 1, .3, 1); --m-terra: #C77A4A; --m-forest: #2D5F4E; --m-cream: #F7F2EA; }
+
+    /* 15 · work under one light */
+    #projects, #projekt-sv { overflow-x: clip; }
+    .projects-grid { position: relative; isolation: isolate; }
+    .projects-grid::before {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(260px circle at var(--lx, 50%) var(--ly, 40%),
+                  rgba(255,253,247,.95), rgba(255,253,247,0) 70%);
+    }
+    .work-card {
+      transition: box-shadow .18s ease-out,
+                  border-color .3s ease,
+                  opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow:
+        calc(var(--sx, 0) * 1px) calc(var(--sy, 0) * 1px) 36px -22px rgba(31,42,36,.55),
+        0 2px 3px rgba(31,42,36,.05);
+    }
+    .work-card.d1 { transition-delay: 0s, 0s, 0.08s, 0.08s; }
+    .work-card.d2 { transition-delay: 0s, 0s, 0.18s, 0.18s; }
+    .work-card:hover {
+      transform: none;
+      box-shadow:
+        calc(var(--sx, 0) * 1px) calc(var(--sy, 0) * 1px) 36px -22px rgba(31,42,36,.55),
+        0 2px 3px rgba(31,42,36,.05);
+    }
+
+    /* 11 · numbers as a receipt */
+    .receipt-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 0 auto; }
+    .receipt { display: flex; gap: 26px; justify-content: center; width: 100%; max-width: 430px; --rc-h: 46px; }
+    .rc-stat { flex: 1; min-width: 0; text-align: center; }
+    .odo { display: flex; justify-content: center; height: var(--rc-h); overflow: hidden; }
+    .odo-roll { display: block; }
+    .odo-roll i { display: block; height: var(--rc-h); line-height: var(--rc-h); font-style: normal; font-family: 'Fraunces', serif; font-weight: 700; font-size: 2.5rem; color: #2D5F4E; }
+    .receipt.is-on .odo-roll { animation: m-roll 1.1s var(--m-ease) both; animation-delay: var(--dl, 0s); }
+    @keyframes m-roll {
+      from { transform: translateY(0); }
+      to { transform: translateY(calc(var(--d, 0) * -1 * var(--rc-h))); }
+    }
+    .rc-bracket { position: relative; display: block; height: 1px; width: 76%; margin: 6px auto 0; background: linear-gradient(90deg, rgba(199,122,74,.75), rgba(199,122,74,.2)); }
+    .rc-bracket::before, .rc-bracket::after { content: ''; position: absolute; top: -3px; width: 1px; height: 7px; background: rgba(199,122,74,.6); }
+    .rc-bracket::before { left: 0; }
+    .rc-bracket::after { right: 0; }
+    .rc-label { display: block; margin-top: 7px; font-size: .55rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #5C6660; }
+    .rc-note { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .66rem; letter-spacing: -.01em; color: #5C6660; text-align: center; min-height: 1.4em; margin: 0; }
+
+    /* 10 · the route, exit marked */
+    .route { max-width: 960px; margin: 0 auto; }
+    .route-top { display: flex; align-items: center; justify-content: space-between; padding: 0 0 10px; border-bottom: 1px solid rgba(45,95,78,.12); }
+    .route-top > span { font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; color: #5C6660; }
+    .route-count { font-family: 'Fraunces', serif; font-size: .8rem; color: #1F2A24; }
+    .route-count b { display: inline-block; min-width: 1.4em; font-weight: 600; color: #C77A4A; }
+    .route-count i { font-style: normal; font-size: .7rem; color: #5C6660; }
+    .route-map { position: relative; padding: 24px 0 32px; }
+    .route-track { position: absolute; left: 12.5%; right: 12.5%; top: 33px; height: 1px; background: rgba(45,95,78,.18); }
+    .route-done { position: absolute; left: 0; top: 0; display: block; height: 1px; width: 0; background: #C77A4A; transition: width .18s ease-out; }
+    .route-nodes { position: relative; display: flex; justify-content: space-between; }
+    .rt-node { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0; background: none; border: 0; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .rt-dot { position: relative; z-index: 2; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #F7F2EA; border: 1px solid rgba(45,95,78,.28); font-family: 'Fraunces', serif; font-size: .55rem; color: #5C6660; transition: background .12s ease, color .12s ease, border-color .12s ease, box-shadow .12s ease; }
+    .rt-node.is-done .rt-dot { background: #C77A4A; border-color: #C77A4A; color: #fff; }
+    .rt-node.is-on .rt-dot { box-shadow: 0 0 0 4px rgba(199,122,74,.15); }
+    .rt-name { font-size: .7rem; line-height: 1.2; text-align: center; color: #5C6660; transition: color .12s ease; }
+    .rt-node.is-done .rt-name { color: #1F2A24; }
+    .rt-node.is-on .rt-name { color: #1F2A24; font-weight: 600; }
+    .rt-node:focus-visible { outline: none; }
+    .rt-node:focus-visible .rt-dot { box-shadow: 0 0 0 3px rgba(45,95,78,.35); }
+    .route-exit { position: absolute; left: 50%; top: 52px; transform: translateX(-50%); z-index: 1; display: flex; flex-direction: column; align-items: center; }
+    .route-spur { display: block; width: 1px; height: 14px; background: repeating-linear-gradient(to bottom, rgba(45,95,78,.35) 0 3px, transparent 3px 6px); }
+    .rt-tag { font-size: .46rem; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: rgba(92,102,96,.8); background: #F7F2EA; border: 1px solid rgba(45,95,78,.16); border-radius: 999px; padding: 2px 7px; transition: color .14s ease, border-color .14s ease; }
+    .route-exit.is-taken .route-spur { opacity: .35; }
+    .route-exit.is-taken .rt-tag { color: rgba(92,102,96,.45); border-color: rgba(45,95,78,.1); text-decoration: line-through; }
+    .route-panels { position: relative; }
+    .route-panel { border-top: 1px solid rgba(45,95,78,.12); padding-top: 12px; min-height: 118px; }
+    .route-panel[hidden] { display: none; }
+    .route-panel.is-on { animation: m-swap-in var(--m-fast) ease-out both; }
+    @keyframes m-swap-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+    .route-kicker { margin: 0 0 6px; font-size: .5rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 500; color: #C77A4A; }
+    .route-what { margin: 0; font-size: .86rem; line-height: 1.55; color: #1F2A24; }
+    .route-get { display: flex; align-items: baseline; gap: 7px; margin: 9px 0 0; font-size: .58rem; letter-spacing: .04em; color: #5C6660; }
+    .route-get b { font-family: 'Fraunces', serif; font-size: .74rem; font-weight: 600; letter-spacing: 0; color: #2D5F4E; }
+
+    /* 13 · the correction */
+    .edit { display: flex; flex-direction: column; border-top: 1px solid rgba(45,95,78,.1); }
+    .edit-row { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 12px; padding: 15px 0; border-bottom: 1px solid rgba(45,95,78,.1); }
+    .edit-num { align-self: start; padding-top: 2px; font-family: 'Fraunces', serif; font-size: .55rem; color: rgba(92,102,96,.55); }
+    .edit-slot { position: relative; height: 26px; min-width: 0; overflow: hidden; }
+    .edit-old, .edit-new { position: absolute; inset: 0; display: flex; align-items: center; margin: 0; white-space: nowrap; }
+    .edit-old { font-size: .8rem; color: #5C6660; }
+    .edit-old .strike { position: relative; display: inline; }
+    .edit-old .strike::after { content: ''; position: absolute; left: -2px; right: -2px; top: 52%; height: 1.5px; background: #C77A4A; transform: scaleX(0); transform-origin: left; }
+    .edit-row.is-struck .strike::after { animation: m-strike .38s var(--m-ease) both; }
+    .edit-row.is-struck .edit-old { animation: m-old-out .34s ease .44s both; }
+    @keyframes m-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes m-old-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-12px); } }
+    .edit-new { font-family: 'Fraunces', serif; font-size: .98rem; font-weight: 600; letter-spacing: -.01em; color: #1F2A24; opacity: 0; transform: translateY(12px); }
+    .edit-row.is-done .edit-new { animation: m-new-in var(--m-swap) var(--m-ease) both; }
+    @keyframes m-new-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    .edit-mark { font-size: .7rem; color: #C77A4A; opacity: 0; transition: opacity .25s ease; }
+    .edit-row.is-done .edit-mark { opacity: 1; }
+
+    /* 12 · the call, end to end */
+    .stage-dark { background: linear-gradient(155deg, #1F2A24, #2D5F4E 130%); }
+    .call-demo { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; align-items: stretch; }
+    .call-card { background: rgba(255,255,255,.055); border: 1px solid rgba(247,242,234,.16); border-radius: 15px; padding: 15px 17px 17px; }
+    .call-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .call-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; display: block; background: rgba(247,242,234,.4); transition: background .3s ease; }
+    .call-demo.is-live .call-dot { background: #5FD08A; animation: m-pulse 2s infinite; }
+    @keyframes m-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(95,208,138,.4); } 50% { box-shadow: 0 0 0 5px rgba(95,208,138,0); } }
+    .call-who { font-size: .66rem; color: rgba(247,242,234,.82); }
+    .call-time { margin-left: auto; font-size: .58rem; letter-spacing: .08em; color: rgba(247,242,234,.55); }
+    .call-wave { display: flex; align-items: center; gap: 3px; height: 40px; margin: 2px 0 8px; }
+    .call-wave i { display: block; width: 3px; height: 100%; border-radius: 2px; background: rgba(247,242,234,.28); transform: scaleY(.2); transform-origin: center; transition: background .3s ease; }
+    .call-demo.is-live .call-wave i { background: rgba(199,122,74,.85); animation: m-wave .85s ease-in-out infinite; animation-delay: var(--wd, 0s); }
+    @keyframes m-wave { 0%, 100% { transform: scaleY(.22); } 50% { transform: scaleY(1); } }
+    .call-state { margin-bottom: 12px; font-size: .55rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(247,242,234,.5); }
+    .call-demo.is-live .call-state { color: #5FD08A; }
+    .call-tr { display: flex; flex-direction: column; gap: 7px; min-height: 96px; }
+    .tr-line { margin: 0; padding-left: 11px; border-left: 1px solid rgba(247,242,234,.16); font-size: .76rem; line-height: 1.45; color: rgba(247,242,234,.92); opacity: 0; }
+    .tr-line.is-ai { border-left-color: rgba(95,208,138,.5); }
+    .tr-line.is-on { animation: m-line-in .45s var(--m-ease) both; }
+    @keyframes m-line-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .tr-who { display: block; margin-bottom: 2px; font-size: .46rem; letter-spacing: .11em; text-transform: uppercase; font-weight: 500; color: rgba(247,242,234,.5); }
+    .tr-line.is-ai .tr-who { color: #8FE0AE; }
+    .call-verdict { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(247,242,234,.14); font-size: .58rem; line-height: 1.5; color: rgba(247,242,234,.62); opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .3s ease; }
+    .call-verdict.is-on { opacity: 1; transform: none; }
+    .call-verdict b { color: #8FE0AE; font-weight: 600; }
+    .call-side { display: flex; flex-direction: column; gap: 10px; justify-content: flex-end; }
+    .out { display: flex; flex-direction: column; gap: 1px; padding: 11px 13px; border-radius: 11px; opacity: 0; }
+    .out.is-on { animation: m-out-in .55s var(--m-ease) both; }
+    @keyframes m-out-in { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+    .out-tag { margin-bottom: 2px; font-size: .5rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+    .out-book { background: rgba(247,242,234,.96); color: #1F2A24; }
+    .out-book .out-tag { color: #C77A4A; }
+    .out-book strong { font-family: 'Fraunces', serif; font-size: .86rem; font-weight: 600; line-height: 1.2; }
+    .out-book span { font-size: .66rem; color: #5C6660; }
+    .out-log { background: rgba(45,95,78,.55); border: 1px solid rgba(247,242,234,.16); color: rgba(247,242,234,.94); font-size: .66rem; line-height: 1.45; }
+    .out-log .out-tag { color: rgba(247,242,234,.6); }
+    .out-missed { flex-direction: row; align-items: center; justify-content: space-between; background: rgba(0,0,0,.18); border: 1px solid rgba(247,242,234,.1); opacity: 1; }
+    .out-missed .out-tag { margin: 0; color: rgba(247,242,234,.55); }
+    .out-missed strong { display: inline-block; font-family: 'Fraunces', serif; font-size: 1rem; letter-spacing: .06em; color: rgba(247,242,234,.95); }
+    .out-missed strong.bump { animation: m-drop .32s var(--m-ease) both; }
+    @keyframes m-drop { 0% { transform: translateY(-5px); opacity: .15; } 100% { transform: none; opacity: 1; } }
+    .replay-btn { display: inline-flex; align-items: center; gap: 7px; margin-top: 28px; padding: 10px 20px; border-radius: 9999px; border: 1.5px solid rgba(247,242,234,.35); background: transparent; font-family: 'Inter', sans-serif; font-size: .8rem; font-weight: 600; color: #F7F2EA; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+    .replay-btn:hover { background: rgba(247,242,234,.1); border-color: rgba(247,242,234,.6); }
+    .replay-btn:focus-visible { outline: 2px solid #E8A87C; outline-offset: 3px; }
+
+    /* 14 · what is under the offer */
+    .under-cta { position: relative; max-width: 420px; min-height: 118px; margin: 0 auto 34px; }
+    .under-ghost { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 18px; text-align: center; border: 1px dashed rgba(255,255,255,.22); border-radius: 10px; font-size: .5rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45); pointer-events: none; transition: opacity .25s ease; }
+    .under-layer { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 14px 16px; pointer-events: none; opacity: 0; transition: opacity .25s ease; background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(255,253,247,.10), rgba(255,253,247,0) 70%); -webkit-mask-image: radial-gradient(150px circle at var(--mx, 50%) var(--my, 50%), #000 32%, transparent 74%); mask-image: radial-gradient(150px circle at var(--mx, 50%) var(--my, 50%), #000 32%, transparent 74%); }
+    .under-cta.is-lit .under-layer { opacity: 1; }
+    .under-cta.is-lit .under-ghost { opacity: 0; }
+    .under-time { margin: 0; font-size: .72rem; line-height: 1.5; text-align: left; color: rgba(255,255,255,.82); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -.01em; }
+
+    @media (max-width: 768px) {
+      .call-demo { grid-template-columns: 1fr; }
+      .call-side { flex-direction: row; flex-wrap: wrap; }
+      .out { flex: 1 1 150px; }
+      .out-missed { flex: 1 1 100%; }
+    }
+
+    @media (max-width: 560px) {
+      .receipt { gap: 14px; --rc-h: 38px; }
+      .odo-roll i { font-size: 2rem; }
+      .rc-label { font-size: .5rem; letter-spacing: .06em; }
+      .rt-name { font-size: .58rem; }
+      .route-panel { min-height: 150px; }
+      .edit-new { font-size: .9rem; }
+    }
+
+    @media (hover: none) {
+      .under-layer { opacity: 1; -webkit-mask-image: none; mask-image: none; }
+      .under-ghost { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .receipt .odo-roll { animation: none !important; transform: translateY(calc(var(--d, 0) * -1 * var(--rc-h))); }
+      .route-panel.is-on, .edit-old, .edit-new { animation: none !important; }
+      .edit-slot { height: auto; overflow: visible; }
+      .edit-old, .edit-new { position: static; opacity: 1; transform: none; }
+      .edit-old { margin-bottom: 2px; opacity: .55; }
+      .edit-old .strike::after { transform: scaleX(1); }
+      .edit-mark { opacity: 1; }
+      .tr-line, .out { opacity: 1; animation: none !important; }
+      .call-demo.is-live .call-wave i { animation: none !important; transform: scaleY(.5); }
+      .call-verdict { transition: none !important; }
+      .under-layer { opacity: 1; -webkit-mask-image: none; mask-image: none; }
+      .under-ghost { display: none; }
     }
   </style>
 </head>
@@ -430,6 +598,53 @@
 </section>
 
 <!-- ============================================================
+     EN - THE CORRECTION
+============================================================ -->
+<section id="shift-en" class="lang-section py-20 px-5 sm:px-8" data-lang="en">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="reveal mb-10">
+      <p class="text-sm text-muted uppercase tracking-[0.14em] font-bold mb-3">The correction</p>
+      <h2 class="font-display font-semibold text-forest-dark leading-tight tracking-[-0.015em]"
+          style="font-size: clamp(1.5rem, 3vw, 2.1rem);">
+        Three sentences you should never hear again.
+      </h2>
+    </div>
+
+    <div class="reveal d1 edit" data-edit>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">01</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"I'll call you back tomorrow."</span></p>
+          <p class="edit-new" aria-hidden="true">Answered in four seconds.</p>
+          <span class="sr-only">Before: I'll call you back tomorrow. Now: answered in four seconds.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">02</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"We're closed, try Monday."</span></p>
+          <p class="edit-new" aria-hidden="true">Closed, but still booking.</p>
+          <span class="sr-only">Before: We're closed, try Monday. Now: closed, but still booking.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">03</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"Sorry, I missed your call."</span></p>
+          <p class="edit-new" aria-hidden="true">Missed calls, handled.</p>
+          <span class="sr-only">Before: Sorry, I missed your call. Now: missed calls, handled.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
      EN - SELECTED PROJECTS
 ============================================================ -->
 <section id="projects" class="lang-section py-24 px-5 sm:px-8" data-lang="en">
@@ -448,10 +663,10 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6" data-light-grid>
 
       <!-- AI Receptionist -->
-      <div class="reveal d1 card bg-white rounded-2xl overflow-hidden border border-slate-100/80">
+      <div class="reveal d1 card work-card bg-white rounded-2xl overflow-hidden border border-slate-100/80" data-light-card>
         <div class="project-header">
           <a href="https://ai-receptionist-demo.yahya-shehabi01.workers.dev" target="_blank" rel="noopener noreferrer" class="block h-full">
             <img src="https://raw.githubusercontent.com/Yahya-Shihabe/ai-receptionist-demo/main/docs/screenshots/live-demo-desktop.png"
@@ -489,7 +704,7 @@
       </div>
 
       <!-- Agent Workflow Playground -->
-      <div class="reveal d2 card bg-white rounded-2xl overflow-hidden border border-slate-100/80">
+      <div class="reveal d2 card work-card bg-white rounded-2xl overflow-hidden border border-slate-100/80" data-light-card>
         <div class="project-header">
           <a href="https://agent-workflow-playground.yahya-shehabi01.workers.dev" target="_blank" rel="noopener noreferrer" class="block h-full">
             <img src="https://raw.githubusercontent.com/Yahya-Shihabe/agent-workflow-playground/main/docs/screenshots/landing-page.png"
@@ -539,6 +754,68 @@
         can buy, so neither is offered as proof.
       </p>
     </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     EN - THE CALL
+============================================================ -->
+<section id="call-en" class="lang-section stage-dark py-24 px-5 sm:px-8" data-lang="en">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="reveal mb-10 max-w-2xl">
+      <p class="text-xs uppercase tracking-[0.14em] font-bold mb-3" style="color:#E8A87C;">Proof, not a promise</p>
+      <h2 class="font-display font-semibold text-white leading-tight tracking-[-0.015em] mb-3"
+          style="font-size: clamp(1.75rem, 3.5vw, 2.5rem);">
+        A call at 21:04, handled without you.
+      </h2>
+      <p class="text-white/60 leading-relaxed" style="font-size: 1.0625rem;">
+        The AI receptionist from the work section, running the same call end to end. No recording, no edit.
+      </p>
+    </div>
+
+    <div class="call-demo reveal d1" data-call>
+      <div class="call-card">
+        <div class="call-head">
+          <span class="call-dot" aria-hidden="true"></span>
+          <span class="call-who">Anna Lind · mobile</span>
+          <span class="call-time">21:04</span>
+        </div>
+        <div class="call-wave" data-wave aria-hidden="true"></div>
+        <div class="call-state" data-state
+             data-ringing="Ringing"
+             data-answering="AI answering"
+             data-captured="AI captured">Ringing</div>
+        <div class="call-tr">
+          <p class="tr-line" data-line><span class="tr-who">Anna · caller</span>"Hi, are you open on Saturday?"</p>
+          <p class="tr-line is-ai" data-line><span class="tr-who">AI receptionist</span>"We are, 10 to 2. What needs doing?"</p>
+          <p class="tr-line" data-line><span class="tr-who">Anna · caller</span>"Lawn mowing. Saturday morning if you can."</p>
+          <p class="tr-line is-ai" data-line><span class="tr-who">AI receptionist</span>"Got it. Saturday morning, lawn mowing. The owner will confirm the time."</p>
+        </div>
+        <div class="call-verdict" data-verdict>
+          <b>AI receptionist</b> answered and captured the job. No one had to pick up.
+        </div>
+      </div>
+
+      <div class="call-side">
+        <div class="out out-book" data-out="book">
+          <span class="out-tag">AI captured</span>
+          <strong>Anna Lind</strong>
+          <span>Lawn mowing · Sat morning</span>
+        </div>
+        <div class="out out-log" data-out="log">
+          <span class="out-tag">In the dashboard</span>
+          <span>New lead · 21:04 · lawn mowing, Saturday morning</span>
+        </div>
+        <div class="out out-missed">
+          <span class="out-tag">Missed this week</span>
+          <strong data-missed>3</strong>
+        </div>
+      </div>
+    </div>
+
+    <button class="replay-btn reveal d2" type="button" data-replay aria-label="Run the call again">Run the call</button>
 
   </div>
 </section>
@@ -616,45 +893,56 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
-
-      <div class="reveal d1 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">1</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Diagnose</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          I go through where the hours actually go: calls nobody picked up, enquiries answered a day
-          late, the same paperwork done three times. One conversation and a look at your tools is
-          usually enough to find it.
-        </p>
+    <div class="route reveal mb-16" data-route>
+      <div class="route-top">
+        <span>How I work</span>
+        <span class="route-count"><b data-index>01</b><i>/ 04</i></span>
       </div>
 
-      <div class="reveal d2 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">2</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Scope</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          You get a written scope: what gets built first, what it replaces, what it costs, and what
-          it does not do. Fixed price. If the numbers do not justify it, I say so here and we stop.
-        </p>
+      <div class="route-map">
+        <div class="route-track"><span class="route-done" data-done></span></div>
+        <div class="route-nodes">
+          <button class="rt-node" type="button" aria-controls="rt-panel-en" aria-current="step">
+            <span class="rt-dot">1</span><span class="rt-name">Diagnose</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-en">
+            <span class="rt-dot">2</span><span class="rt-name">Scope</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-en">
+            <span class="rt-dot">3</span><span class="rt-name">Build</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-en">
+            <span class="rt-dot">4</span><span class="rt-name">Hand over</span>
+          </button>
+        </div>
+        <div class="route-exit" data-exit>
+          <span class="route-spur" aria-hidden="true"></span>
+          <span class="rt-tag">stop here, free</span>
+        </div>
       </div>
 
-      <div class="reveal d3 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">3</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Build</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          A working version in weeks, not quarters. You test it while it is being built, with your
-          own enquiries and your own documents, and it changes when something is wrong.
-        </p>
+      <div class="route-panels" id="rt-panel-en">
+        <div class="route-panel" data-panel="0">
+          <p class="route-kicker">Step 01 · two hours, on your line</p>
+          <p class="route-what">I go through where the hours actually go: calls nobody picked up, enquiries answered a day late, the same paperwork done three times. One conversation and a look at your tools is usually enough to find it.</p>
+          <p class="route-get"><span>You get</span><b>a one-page diagnosis</b></p>
+        </div>
+        <div class="route-panel" data-panel="1" hidden>
+          <p class="route-kicker">Step 02 · one page, fixed price</p>
+          <p class="route-what">You get a written scope: what gets built first, what it replaces, what it costs, and what it does not do. Fixed price. If the numbers do not justify it, I say so here and we stop.</p>
+          <p class="route-get"><span>You get</span><b>a fixed price, or a no</b></p>
+        </div>
+        <div class="route-panel" data-panel="2" hidden>
+          <p class="route-kicker">Step 03 · two to four weeks</p>
+          <p class="route-what">A working version in weeks, not quarters. You test it while it is being built, with your own enquiries and your own documents, and it changes when something is wrong.</p>
+          <p class="route-get"><span>You get</span><b>a receptionist on your line</b></p>
+        </div>
+        <div class="route-panel" data-panel="3" hidden>
+          <p class="route-kicker">Step 04 · accounts in your name</p>
+          <p class="route-what">Accounts in your name, the source in your repo, and a plain note on how it works and what to do when it breaks. No lock-in, and no monthly fee just to keep it alive.</p>
+          <p class="route-get"><span>You get</span><b>the keys, and the docs</b></p>
+        </div>
       </div>
-
-      <div class="reveal d4 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">4</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Hand over</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          Accounts in your name, the source in your repo, and a plain note on how it works and what
-          to do when it breaks. No lock-in, and no monthly fee just to keep it alive.
-        </p>
-      </div>
-
     </div>
 
     <div class="reveal mb-5">
@@ -735,19 +1023,34 @@
 
     </div>
 
-    <div class="reveal mt-16 grid grid-cols-2 md:grid-cols-3 gap-6">
-      <div class="proof-stat">
-        <div class="number">2</div>
-        <div class="label">Live builds</div>
+    <div class="receipt-wrap reveal mt-16">
+      <div class="receipt" data-receipt>
+        <div class="rc-stat">
+          <span class="sr-only">2 live builds</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:2;--dl:0s"><i>0</i><i>1</i><i>2</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Live builds</span>
+        </div>
+        <div class="rc-stat">
+          <span class="sr-only">4 public repos</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:4;--dl:0.1s"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Public repos</span>
+        </div>
+        <div class="rc-stat">
+          <span class="sr-only">1 point of contact</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:1;--dl:0.2s"><i>0</i><i>1</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Point of contact</span>
+        </div>
       </div>
-      <div class="proof-stat">
-        <div class="number">4</div>
-        <div class="label">Public repos</div>
-      </div>
-      <div class="proof-stat">
-        <div class="number">1</div>
-        <div class="label">Point of contact</div>
-      </div>
+      <p class="rc-note" data-note>2 builds live · 4 repos public · 1 person you talk to</p>
     </div>
 
   </div>
@@ -817,6 +1120,53 @@
 </section>
 
 <!-- ============================================================
+     SV - RÄTTELSEN
+============================================================ -->
+<section id="shift-sv" class="lang-section py-20 px-5 sm:px-8" data-lang="sv" style="display:none;">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="reveal mb-10">
+      <p class="text-sm text-muted uppercase tracking-[0.14em] font-bold mb-3">Rättelsen</p>
+      <h2 class="font-display font-semibold text-forest-dark leading-tight tracking-[-0.015em]"
+          style="font-size: clamp(1.5rem, 3vw, 2.1rem);">
+        Tre meningar du aldrig borde behöva höra igen.
+      </h2>
+    </div>
+
+    <div class="reveal d1 edit" data-edit>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">01</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"Jag ringer tillbaka imorgon."</span></p>
+          <p class="edit-new" aria-hidden="true">Besvarat på fyra sekunder.</p>
+          <span class="sr-only">Före: Jag ringer tillbaka imorgon. Nu: besvarat på fyra sekunder.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">02</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"Vi har stängt, ring på måndag."</span></p>
+          <p class="edit-new" aria-hidden="true">Stängt, men bokar ändå.</p>
+          <span class="sr-only">Före: Vi har stängt, ring på måndag. Nu: stängt, men bokar ändå.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+      <div class="edit-row">
+        <span class="edit-num" aria-hidden="true">03</span>
+        <div class="edit-slot">
+          <p class="edit-old" aria-hidden="true"><span class="strike">"Förlåt, jag missade ditt samtal."</span></p>
+          <p class="edit-new" aria-hidden="true">Missade samtal, omhändertagna.</p>
+          <span class="sr-only">Före: Förlåt, jag missade ditt samtal. Nu: missade samtal, omhändertagna.</span>
+        </div>
+        <span class="edit-mark" aria-hidden="true">✓</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
      SV - VALDA PROJEKT
 ============================================================ -->
 <section id="projekt-sv" class="lang-section py-24 px-5 sm:px-8" data-lang="sv" style="display:none;">
@@ -834,10 +1184,10 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6" data-light-grid>
 
       <!-- AI Receptionist -->
-      <div class="reveal d1 card bg-white rounded-2xl overflow-hidden border border-slate-100/80">
+      <div class="reveal d1 card work-card bg-white rounded-2xl overflow-hidden border border-slate-100/80" data-light-card>
         <div class="project-header">
           <a href="https://ai-receptionist-demo.yahya-shehabi01.workers.dev" target="_blank" rel="noopener noreferrer" class="block h-full">
             <img src="https://raw.githubusercontent.com/Yahya-Shihabe/ai-receptionist-demo/main/docs/screenshots/live-demo-desktop.png"
@@ -875,7 +1225,7 @@
       </div>
 
       <!-- Agent Workflow Playground -->
-      <div class="reveal d2 card bg-white rounded-2xl overflow-hidden border border-slate-100/80">
+      <div class="reveal d2 card work-card bg-white rounded-2xl overflow-hidden border border-slate-100/80" data-light-card>
         <div class="project-header">
           <a href="https://agent-workflow-playground.yahya-shehabi01.workers.dev" target="_blank" rel="noopener noreferrer" class="block h-full">
             <img src="https://raw.githubusercontent.com/Yahya-Shihabe/agent-workflow-playground/main/docs/screenshots/landing-page.png"
@@ -929,6 +1279,69 @@
 
   </div>
 </section>
+
+<!-- ============================================================
+     SV - SAMTALET
+============================================================ -->
+<section id="call-sv" class="lang-section stage-dark py-24 px-5 sm:px-8" data-lang="sv" style="display:none;">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="reveal mb-10 max-w-2xl">
+      <p class="text-xs uppercase tracking-[0.14em] font-bold mb-3" style="color:#E8A87C;">Bevis, inte ett löfte</p>
+      <h2 class="font-display font-semibold text-white leading-tight tracking-[-0.015em] mb-3"
+          style="font-size: clamp(1.75rem, 3.5vw, 2.5rem);">
+        Ett samtal 21:04, hanterat utan dig.
+      </h2>
+      <p class="text-white/60 leading-relaxed" style="font-size: 1.0625rem;">
+        AI-receptionisten från arbetena, som kör samma samtal från början till slut. Ingen inspelning, ingen klippning.
+      </p>
+    </div>
+
+    <div class="call-demo reveal d1" data-call>
+      <div class="call-card">
+        <div class="call-head">
+          <span class="call-dot" aria-hidden="true"></span>
+          <span class="call-who">Anna Lind · mobil</span>
+          <span class="call-time">21:04</span>
+        </div>
+        <div class="call-wave" data-wave aria-hidden="true"></div>
+        <div class="call-state" data-state
+             data-ringing="Ringer"
+             data-answering="AI svarar"
+             data-captured="AI tog emot">Ringer</div>
+        <div class="call-tr">
+          <p class="tr-line" data-line><span class="tr-who">Anna · kund</span>"Hej, har ni öppet på lördag?"</p>
+          <p class="tr-line is-ai" data-line><span class="tr-who">AI-receptionist</span>"Vi har öppet 10 till 14. Vad gäller det?"</p>
+          <p class="tr-line" data-line><span class="tr-who">Anna · kund</span>"Gräsklippning. Lördag förmiddag om det går."</p>
+          <p class="tr-line is-ai" data-line><span class="tr-who">AI-receptionist</span>"Uppfattat: lördag förmiddag, gräsklippning. Ägaren bekräftar tiden."</p>
+        </div>
+        <div class="call-verdict" data-verdict>
+          <b>AI-receptionisten</b> svarade och tog emot jobbet. Ingen behövde lyfta luren.
+        </div>
+      </div>
+
+      <div class="call-side">
+        <div class="out out-book" data-out="book">
+          <span class="out-tag">AI tog emot</span>
+          <strong>Anna Lind</strong>
+          <span>Gräsklippning · lör förmiddag</span>
+        </div>
+        <div class="out out-log" data-out="log">
+          <span class="out-tag">I dashboarden</span>
+          <span>Nytt lead · 21:04 · gräsklippning, lördag förmiddag</span>
+        </div>
+        <div class="out out-missed">
+          <span class="out-tag">Missade den här veckan</span>
+          <strong data-missed>3</strong>
+        </div>
+      </div>
+    </div>
+
+    <button class="replay-btn reveal d2" type="button" data-replay aria-label="Spela upp samtalet igen">Spela upp samtalet</button>
+
+  </div>
+</section>
+
 <!-- ============================================================
      SV - VAD JAG BYGGER
 ============================================================ -->
@@ -1003,46 +1416,56 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-16">
-
-      <div class="reveal d1 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">1</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Diagnos</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          Jag går igenom var timmarna faktiskt går: samtal ingen svarade på, förfrågningar som
-          besvaras en dag för sent, samma papper tre gånger. Ett samtal och en titt på dina verktyg
-          räcker oftast.
-        </p>
+    <div class="route reveal mb-16" data-route>
+      <div class="route-top">
+        <span>Så jobbar jag</span>
+        <span class="route-count"><b data-index>01</b><i>/ 04</i></span>
       </div>
 
-      <div class="reveal d2 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">2</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Omfattning</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          Du får en skriftlig omfattning: vad som byggs först, vad det ersätter, vad det kostar och
-          vad det inte gör. Fast pris. Om siffrorna inte motiverar det säger jag det här och vi stannar.
-        </p>
+      <div class="route-map">
+        <div class="route-track"><span class="route-done" data-done></span></div>
+        <div class="route-nodes">
+          <button class="rt-node" type="button" aria-controls="rt-panel-sv" aria-current="step">
+            <span class="rt-dot">1</span><span class="rt-name">Diagnos</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-sv">
+            <span class="rt-dot">2</span><span class="rt-name">Omfattning</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-sv">
+            <span class="rt-dot">3</span><span class="rt-name">Bygge</span>
+          </button>
+          <button class="rt-node" type="button" aria-controls="rt-panel-sv">
+            <span class="rt-dot">4</span><span class="rt-name">Överlämning</span>
+          </button>
+        </div>
+        <div class="route-exit" data-exit>
+          <span class="route-spur" aria-hidden="true"></span>
+          <span class="rt-tag">stanna här, gratis</span>
+        </div>
       </div>
 
-      <div class="reveal d3 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">3</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Bygge</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          En fungerande version på veckor, inte kvartal. Du testar medan det byggs, med dina egna
-          förfrågningar och dokument, och det ändras när något är fel.
-        </p>
+      <div class="route-panels" id="rt-panel-sv">
+        <div class="route-panel" data-panel="0">
+          <p class="route-kicker">Steg 01 · två timmar, hos dig</p>
+          <p class="route-what">Jag går igenom var timmarna faktiskt går: samtal ingen svarade på, förfrågningar som besvaras en dag för sent, samma papper tre gånger. Ett samtal och en titt på dina verktyg räcker oftast.</p>
+          <p class="route-get"><span>Du får</span><b>en diagnos på en sida</b></p>
+        </div>
+        <div class="route-panel" data-panel="1" hidden>
+          <p class="route-kicker">Steg 02 · en sida, fast pris</p>
+          <p class="route-what">Du får en skriftlig omfattning: vad som byggs först, vad det ersätter, vad det kostar och vad det inte gör. Fast pris. Om siffrorna inte motiverar det säger jag det här och vi stannar.</p>
+          <p class="route-get"><span>Du får</span><b>ett fast pris, eller ett nej</b></p>
+        </div>
+        <div class="route-panel" data-panel="2" hidden>
+          <p class="route-kicker">Steg 03 · två till fyra veckor</p>
+          <p class="route-what">En fungerande version på veckor, inte kvartal. Du testar medan det byggs, med dina egna förfrågningar och dokument, och det ändras när något är fel.</p>
+          <p class="route-get"><span>Du får</span><b>en receptionist på din linje</b></p>
+        </div>
+        <div class="route-panel" data-panel="3" hidden>
+          <p class="route-kicker">Steg 04 · konton i ditt namn</p>
+          <p class="route-what">Konton i ditt namn, källkoden i ditt repo och en kort beskrivning på vanlig svenska om hur det fungerar och vad du gör när det strular. Ingen inlåsning, ingen månadsavgift bara för att hålla det vid liv.</p>
+          <p class="route-get"><span>Du får</span><b>nycklarna och dokumentationen</b></p>
+        </div>
       </div>
-
-      <div class="reveal d4 card bg-white rounded-2xl p-7 border border-slate-100/80">
-        <div class="step-num mb-1" style="font-size:3rem;">4</div>
-        <h3 class="font-display font-semibold text-forest-dark text-lg mb-2">Överlämning</h3>
-        <p class="text-muted text-sm leading-relaxed">
-          Konton i ditt namn, källkoden i ditt repo och en kort beskrivning på vanlig svenska om hur
-          det fungerar och vad du gör när det strular. Ingen inlåsning, ingen månadsavgift bara för
-          att hålla det vid liv.
-        </p>
-      </div>
-
     </div>
 
     <div class="reveal mb-5">
@@ -1123,19 +1546,34 @@
 
     </div>
 
-    <div class="reveal mt-16 grid grid-cols-2 md:grid-cols-3 gap-6">
-      <div class="proof-stat">
-        <div class="number">2</div>
-        <div class="label">Live i produktion</div>
+    <div class="receipt-wrap reveal mt-16">
+      <div class="receipt" data-receipt>
+        <div class="rc-stat">
+          <span class="sr-only">2 byggen i drift</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:2;--dl:0s"><i>0</i><i>1</i><i>2</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Live i produktion</span>
+        </div>
+        <div class="rc-stat">
+          <span class="sr-only">4 publika repon</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:4;--dl:0.1s"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Publika repon</span>
+        </div>
+        <div class="rc-stat">
+          <span class="sr-only">1 kontaktperson</span>
+          <span class="odo" aria-hidden="true">
+            <span class="odo-roll" style="--d:1;--dl:0.2s"><i>0</i><i>1</i></span>
+          </span>
+          <span class="rc-bracket" aria-hidden="true"></span>
+          <span class="rc-label">Kontaktperson</span>
+        </div>
       </div>
-      <div class="proof-stat">
-        <div class="number">4</div>
-        <div class="label">Publika repon</div>
-      </div>
-      <div class="proof-stat">
-        <div class="number">1</div>
-        <div class="label">Kontaktperson</div>
-      </div>
+      <p class="rc-note" data-note>2 byggen i drift · 4 publika repon · 1 person du pratar med</p>
     </div>
 
   </div>
@@ -1162,6 +1600,16 @@
        style="font-size: 1.0625rem; max-width: 430px; line-height: 1.65;" data-i18n="ctaSection.sub">
       30 minutes. We go through where the time goes in your business and whether something I build could carry it. If I don't think it can, I'll tell you on the call.
     </p>
+
+    <div class="reveal d2 under-cta" data-under>
+      <span class="under-ghost" aria-hidden="true" data-i18n="contactAgenda.ghost">what the 30 minutes covers</span>
+      <div class="under-layer">
+        <p class="under-time" data-i18n="contactAgenda.one">00:00 · where the hours go</p>
+        <p class="under-time" data-i18n="contactAgenda.two">00:10 · what a fix would take</p>
+        <p class="under-time" data-i18n="contactAgenda.three">00:20 · a fixed price, or a no</p>
+        <p class="under-time" data-i18n="contactAgenda.four">00:30 · a next step either way</p>
+      </div>
+    </div>
 
     <div class="reveal d3">
       <a id="final-cta" href="#boka"
@@ -1274,6 +1722,13 @@ const LANG = {
       headingEyebrow: 'Pick a time',
       heading: 'Book a free call.',
     },
+    contactAgenda: {
+      ghost: 'what the 30 minutes covers',
+      one: '00:00 · where the hours go',
+      two: '00:10 · what a fix would take',
+      three: '00:20 · a fixed price, or a no',
+      four: '00:30 · a next step either way',
+    },
     mobileCta: 'Book',
   },
   sv: {
@@ -1296,6 +1751,13 @@ const LANG = {
     booking: {
       headingEyebrow: 'Välj en tid',
       heading: 'Boka ett gratis samtal.',
+    },
+    contactAgenda: {
+      ghost: 'vad de 30 minuterna innehåller',
+      one: '00:00 · var timmarna går',
+      two: '00:10 · vad en lösning skulle kräva',
+      three: '00:20 · ett fast pris, eller ett nej',
+      four: '00:30 · ett nästa steg oavsett',
     },
     mobileCta: 'Boka',
   }
@@ -1391,6 +1853,9 @@ function setLang(lang) {
   // 9. Mobile sticky CTA href
   const mobileCta = document.getElementById('mobile-cta');
   if (mobileCta) mobileCta.setAttribute('href', '#boka');
+
+  // 10. Let the motion modules know the language changed
+  document.dispatchEvent(new CustomEvent('motion:lang', { detail: lang }));
 }
 
 function updateI18nText(lang) {
@@ -1451,6 +1916,300 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── Expose setLang globally for inline onclick ────────────────
 window.setLang = setLang;
+</script>
+
+<!-- ============================================================
+     MOTION ROUND TWO - timings and state only, no copy
+============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function raf(fn) {
+    var queued = false;
+    return function (event) {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; fn(event); });
+    };
+  }
+
+  function onceVisible(el, fn, threshold) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { fn(); io.disconnect(); }
+      });
+    }, { threshold: threshold || 0.35 });
+    io.observe(el);
+  }
+
+  // Visible, and belonging to the language currently on screen. setLang hides the
+  // other language 350ms after this event fires, so offsetParent alone is not enough.
+  function isShowing(el) {
+    if (!el || el.offsetParent === null) return false;
+    var section = el.closest ? el.closest('.lang-section') : null;
+    var lang = section ? section.getAttribute('data-lang') : null;
+    if (lang && lang !== 'both' && lang !== document.documentElement.lang) return false;
+    return true;
+  }
+
+  /* ---------- 15 · work under one light ---------- */
+  document.querySelectorAll('[data-light-grid]').forEach(function (grid) {
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('[data-light-card]'));
+    if (!cards.length || REDUCE) return;
+
+    var rects = [];
+    function measure() {
+      rects = cards.map(function (card) { return card.getBoundingClientRect(); });
+    }
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    grid.addEventListener('pointerenter', measure, { passive: true });
+    document.addEventListener('motion:lang', measure);
+
+    grid.addEventListener('pointermove', raf(function (event) {
+      if (event.pointerType === 'touch') return;
+      var gr = grid.getBoundingClientRect();
+      grid.style.setProperty('--lx', (event.clientX - gr.left) + 'px');
+      grid.style.setProperty('--ly', (event.clientY - gr.top) + 'px');
+
+      cards.forEach(function (card, i) {
+        var r = rects[i];
+        if (!r || !r.width) return;
+        var sx = Math.max(-14, Math.min(14, (r.left + r.width / 2 - event.clientX) / 18));
+        var sy = Math.max(-10, Math.min(10, (r.top + r.height / 2 - event.clientY) / 18));
+        card.style.setProperty('--sx', sx.toFixed(1));
+        card.style.setProperty('--sy', sy.toFixed(1));
+      });
+    }));
+
+    grid.addEventListener('pointerleave', function () {
+      grid.style.removeProperty('--lx');
+      grid.style.removeProperty('--ly');
+      cards.forEach(function (card) {
+        card.style.removeProperty('--sx');
+        card.style.removeProperty('--sy');
+      });
+    });
+  });
+
+  /* ---------- 11 · numbers as a receipt ---------- */
+  document.querySelectorAll('[data-receipt]').forEach(function (receipt) {
+    var note = receipt.parentNode.querySelector('[data-note]');
+    var full = note ? note.textContent : '';
+    var timer = null;
+
+    function typeFrom() {
+      if (!note || !full) return;
+      var i = 0;
+      (function step() {
+        if (i > full.length) { timer = null; return; }
+        note.textContent = full.slice(0, i);
+        i += 1;
+        timer = setTimeout(step, 18);
+      })();
+    }
+
+    function start() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      receipt.classList.remove('is-on');
+      void receipt.offsetWidth;
+      receipt.classList.add('is-on');
+      if (!note || REDUCE) return;
+      note.textContent = '';
+      typeFrom();
+    }
+
+    onceVisible(receipt, start, 0.55);
+
+    document.addEventListener('motion:lang', function () {
+      if (timer) { clearTimeout(timer); timer = null; }
+      if (!isShowing(receipt)) { receipt.classList.remove('is-on'); return; }
+      start();
+    });
+  });
+
+  /* ---------- 10 · the route, exit marked ---------- */
+  document.querySelectorAll('[data-route]').forEach(function (route) {
+    var nodes = Array.prototype.slice.call(route.querySelectorAll('.rt-node'));
+    var panels = Array.prototype.slice.call(route.querySelectorAll('[data-panel]'));
+    var done = route.querySelector('[data-done]');
+    var index = route.querySelector('[data-index]');
+    var exit = route.querySelector('[data-exit]');
+
+    function select(i) {
+      nodes.forEach(function (node, k) {
+        node.classList.toggle('is-done', k <= i);
+        node.classList.toggle('is-on', k === i);
+        if (k === i) node.setAttribute('aria-current', 'step');
+        else node.removeAttribute('aria-current');
+      });
+      panels.forEach(function (panel, k) {
+        panel.hidden = k !== i;
+        panel.classList.toggle('is-on', k === i);
+      });
+      if (done) done.style.width = (i / (nodes.length - 1) * 100) + '%';
+      if (index) index.textContent = ('0' + (i + 1)).slice(-2);
+      if (exit) exit.classList.toggle('is-taken', i >= 2);
+    }
+
+    nodes.forEach(function (node, i) {
+      node.addEventListener('pointerenter', function () { select(i); });
+      node.addEventListener('focus', function () { select(i); });
+      node.addEventListener('click', function () { select(i); });
+    });
+    select(0);
+  });
+
+  /* ---------- 13 · the correction ---------- */
+  document.querySelectorAll('[data-edit]').forEach(function (edit) {
+    var rows = Array.prototype.slice.call(edit.querySelectorAll('.edit-row'));
+    var timers = [];
+
+    function reset() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      rows.forEach(function (row) { row.classList.remove('is-struck', 'is-done'); });
+    }
+
+    function run() {
+      reset();
+      if (REDUCE) {
+        rows.forEach(function (row) { row.classList.add('is-struck', 'is-done'); });
+        return;
+      }
+      rows.forEach(function (row, i) {
+        timers.push(setTimeout(function () { row.classList.add('is-struck'); }, i * 1700 + 200));
+        timers.push(setTimeout(function () { row.classList.add('is-done'); }, i * 1700 + 900));
+      });
+    }
+
+    onceVisible(edit, run, 0.45);
+
+    document.addEventListener('motion:lang', function () {
+      if (!isShowing(edit)) { reset(); return; }
+      run();
+    });
+  });
+
+  /* ---------- 12 · the call, end to end ---------- */
+  document.querySelectorAll('[data-call]').forEach(function (root) {
+    var stage = root.closest('section');
+    var lines = Array.prototype.slice.call(root.querySelectorAll('[data-line]'));
+    var book = root.querySelector('[data-out="book"]');
+    var log = root.querySelector('[data-out="log"]');
+    var missed = root.querySelector('[data-missed]');
+    var verdict = root.querySelector('[data-verdict]');
+    var state = root.querySelector('[data-state]');
+    var wave = root.querySelector('[data-wave]');
+    var replay = stage ? stage.querySelector('[data-replay]') : null;
+    var timers = [];
+    var done = false;
+
+    if (wave && !wave.children.length) {
+      for (var w = 0; w < 26; w++) {
+        var bar = document.createElement('i');
+        bar.style.setProperty('--wd', ((w % 7) * 0.07).toFixed(2) + 's');
+        wave.appendChild(bar);
+      }
+    }
+
+    function setState(key) {
+      if (state && state.dataset[key]) state.textContent = state.dataset[key];
+    }
+
+    function clear() {
+      timers.forEach(clearTimeout);
+      timers = [];
+    }
+
+    function reset() {
+      clear();
+      root.classList.remove('is-live');
+      lines.forEach(function (l) { l.classList.remove('is-on'); });
+      if (book) book.classList.remove('is-on');
+      if (log) log.classList.remove('is-on');
+      if (verdict) verdict.classList.remove('is-on');
+      if (missed) { missed.textContent = '3'; missed.classList.remove('bump'); }
+      setState('ringing');
+    }
+
+    var seq = [
+      [500, function () { root.classList.add('is-live'); setState('answering'); }],
+      [1100, function () { if (lines[0]) lines[0].classList.add('is-on'); }],
+      [2500, function () { if (lines[1]) lines[1].classList.add('is-on'); }],
+      [4000, function () { if (lines[2]) lines[2].classList.add('is-on'); }],
+      [5400, function () { if (lines[3]) lines[3].classList.add('is-on'); }],
+      [6400, function () { setState('captured'); if (book) book.classList.add('is-on'); }],
+      [7400, function () { if (log) log.classList.add('is-on'); }],
+      [8200, function () { if (missed) { missed.textContent = '2'; missed.classList.add('bump'); } }],
+      [9000, function () { if (verdict) verdict.classList.add('is-on'); }],
+      [9200, function () { done = true; }]
+    ];
+
+    function run() {
+      reset();
+      done = false;
+      if (REDUCE) {
+        root.classList.add('is-live');
+        setState('captured');
+        lines.forEach(function (l) { l.classList.add('is-on'); });
+        if (book) book.classList.add('is-on');
+        if (log) log.classList.add('is-on');
+        if (missed) missed.textContent = '2';
+        if (verdict) verdict.classList.add('is-on');
+        done = true;
+        return;
+      }
+      seq.forEach(function (pair) { timers.push(setTimeout(pair[1], pair[0])); });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            if (!done) run();
+          } else {
+            clear();
+            if (!done) reset();
+          }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root);
+    } else {
+      run();
+    }
+
+    if (replay) replay.addEventListener('click', run);
+
+    document.addEventListener('motion:lang', function () {
+      done = false;
+      clear();
+      if (!isShowing(root)) { reset(); return; }
+      run();
+    });
+  });
+
+  /* ---------- 14 · what is under the offer ---------- */
+  document.querySelectorAll('[data-under]').forEach(function (root) {
+    var stage = root.closest('section');
+    if (!stage || REDUCE) return;
+
+    stage.addEventListener('pointermove', raf(function (event) {
+      if (event.pointerType === 'touch') return;
+      var r = root.getBoundingClientRect();
+      root.style.setProperty('--mx', (event.clientX - r.left) + 'px');
+      root.style.setProperty('--my', (event.clientY - r.top) + 'px');
+      root.classList.add('is-lit');
+    }));
+
+    stage.addEventListener('pointerleave', function () { root.classList.remove('is-lit'); });
+  });
+})();
 </script>
 
 <!-- Cal.com inline embed -->
