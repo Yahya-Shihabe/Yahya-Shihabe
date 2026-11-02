@@ -462,12 +462,316 @@
       .under-layer { opacity: 1; -webkit-mask-image: none; mask-image: none; }
       .under-ghost { display: none; }
     }
+
+    /* ============================================================
+       MOTION LAYER
+       D1 ink underline · D5 paper · D6 micro · D7 lift
+       D8 real logos · D9 frost · D12 state pill · D13 wipe
+    ============================================================ */
+    body { isolation: isolate; }
+
+    /* -- D5 · paper: grain, dot grid, slow drift ---------------- */
+    .grain { opacity: .085; }
+    html.paper-off .grain { display: none; }
+
+    .paper-wash {
+      position: fixed;
+      inset: -12%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 1;
+      background:
+        radial-gradient(38% 34% at 14% 16%, rgba(199,122,74,.22), transparent 68%),
+        radial-gradient(44% 38% at 86% 74%, rgba(45,95,78,.18), transparent 70%),
+        radial-gradient(32% 30% at 62% 4%, rgba(45,95,78,.11), transparent 72%);
+      animation: paper-drift 64s ease-in-out infinite alternate;
+    }
+    @keyframes paper-drift {
+      0%   { transform: translate3d(-1.4%, -1%, 0) scale(1.02); }
+      50%  { transform: translate3d(1.6%, .8%, 0) scale(1.05); }
+      100% { transform: translate3d(-.6%, 1.4%, 0) scale(1.03); }
+    }
+    html.wash-off .paper-wash { display: none; }
+    @media (prefers-reduced-motion: reduce) { .paper-wash { animation: none; } }
+
+    .hero-paper { position: relative; isolation: isolate; }
+    .hero-paper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 1;
+      background-image: radial-gradient(rgba(45,95,78,.16) 1.2px, transparent 1.8px);
+      background-size: 20px 20px;
+      -webkit-mask-image: radial-gradient(84% 80% at 30% 42%, #000 0%, rgba(0,0,0,.6) 58%, transparent 90%);
+      mask-image: radial-gradient(84% 80% at 30% 42%, #000 0%, rgba(0,0,0,.6) 58%, transparent 90%);
+    }
+    html.grid-off .hero-paper::before { display: none; }
+
+    /* -- D1 · a pen under the words, one rendered line at a time - */
+    .ink-host { position: relative; isolation: isolate; }
+    @keyframes ink-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    .ink-draw {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    /* -- D6 · microinteractions --------------------------------- */
+    .btn-cta svg, .btn-ghost svg {
+      transition: transform .28s cubic-bezier(.16,1,.3,1);
+    }
+    .btn-cta:hover svg, .btn-ghost:hover svg { transform: translateX(3px); }
+    .btn-cta:active { transform: translateY(0) scale(.985); }
+
+    .ext-link svg { transition: transform .28s cubic-bezier(.16,1,.3,1); }
+    .ext-link:hover svg { transform: translate(2px,-2px); }
+
+    #site-nav nav a { position: relative; }
+    #site-nav nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: -4px;
+      height: 1.5px;
+      background: #2D5F4E;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    #site-nav nav a:hover::after { transform: scaleX(1); }
+
+    .copy-mail {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border: 1px solid rgba(45,95,78,.2);
+      border-radius: 999px;
+      background: transparent;
+      font: inherit;
+      font-size: .68rem;
+      color: #5C6660;
+      cursor: pointer;
+      transition: border-color .2s ease, color .2s ease, background .2s ease;
+    }
+    .copy-mail:hover { border-color: rgba(45,95,78,.45); color: #1F2A24; background: rgba(45,95,78,.05); }
+    .copy-mail.is-copied { color: #2D5F4E; border-color: rgba(45,95,78,.45); background: rgba(45,95,78,.08); }
+    .copy-mail svg { width: 11px; height: 11px; }
+
+    /* -- D7 · lift, not tilt ------------------------------------ */
+    .work-card, .work-card.d1, .work-card.d2 {
+      box-shadow: 0 1px 2px rgba(31,42,36,.06), 0 10px 24px -20px rgba(31,42,36,.35);
+      transition: transform .3s cubic-bezier(.16,1,.3,1),
+                  box-shadow .3s ease,
+                  border-color .3s ease,
+                  opacity .65s cubic-bezier(.16,1,.3,1);
+    }
+    .work-card.d1 { transition-delay: 0s, 0s, 0s, .08s; }
+    .work-card.d2 { transition-delay: 0s, 0s, 0s, .18s; }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 2px 4px rgba(31,42,36,.06), 0 22px 44px -24px rgba(31,42,36,.45);
+      border-color: rgba(45,95,78,.16);
+    }
+    .work-card:active { transform: translateY(-1px); }
+    @media (prefers-reduced-motion: reduce) {
+      .work-card:hover, .work-card:active { transform: none; }
+    }
+
+    /* -- D8 · the real marks ------------------------------------ */
+    .tech-card {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid rgba(226,232,240,.85);
+      border-radius: 12px;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .tech-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -18px rgba(31,42,36,.5);
+      border-color: rgba(45,95,78,.16);
+    }
+    .tech-mark {
+      width: 34px; height: 34px;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: rgba(45,95,78,.07);
+      color: #2D5F4E;
+    }
+    .tech-mark svg { width: 18px; height: 18px; fill: currentColor; }
+    /* the Hermes lockup, masked so it takes the site green */
+    .tech-wordmark {
+      flex: none;
+      width: 84px;
+      height: 42px;
+      background: currentColor;
+      color: #2D5F4E;
+      -webkit-mask-image: url("assets/hermes-wordmark.png");
+      mask-image: url("assets/hermes-wordmark.png");
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-position: left center;
+      mask-position: left center;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+    }
+    /* -- a portrait, framed as a print --------------------------- */
+    .portrait {
+      width: min(100%, 322px);
+      margin: 0 0 36px;
+      padding: 9px 9px 0;
+      background: #fff;
+      border: 1px solid rgba(45,95,78,.14);
+      border-radius: 4px;
+      box-shadow:
+        6px 6px 0 -1px rgba(199,122,74,.13),
+        0 1px 2px rgba(31,42,36,.05),
+        0 24px 44px -32px rgba(31,42,36,.6);
+    }
+    .portrait img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: 50% 42%;
+      border-radius: 2px;
+      background: rgba(45,95,78,.06);
+    }
+    .portrait figcaption {
+      display: block;
+      padding: 11px 2px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .6rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: #5C6660;
+    }
+    .tech-name {
+      display: block;
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: .85rem;
+      line-height: 1.2;
+      color: #1F2A24;
+    }
+    .tech-role {
+      display: block;
+      margin-top: 2px;
+      font-size: .6rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: #5C6660;
+    }
+
+    /* -- The Correction · a step up in size for readability ------ */
+    .edit-slot .edit-new {
+      font-size: clamp(1.2rem, 1.7vw, 1.36rem);
+      line-height: 1.45;
+    }
+
+    /* -- D9 · frosted nav (toggle in the draft bar) ------------- */
+    html.frost #site-nav {
+      background: rgba(247,242,234,.3);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      backdrop-filter: blur(14px) saturate(150%);
+      transition: background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
+    }
+    html.frost #site-nav.scrolled {
+      background: rgba(247,242,234,.8);
+      box-shadow: 0 1px 0 rgba(31,42,36,.07), 0 10px 26px -22px rgba(31,42,36,.5);
+    }
+
+    /* -- D12 · the state line becomes a pill -------------------- */
+    .call-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: auto;
+      padding: 4px 10px 4px 8px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(247,242,234,.18);
+      border-radius: 999px;
+      background: rgba(247,242,234,.05);
+      color: rgba(247,242,234,.62);
+      white-space: nowrap;
+      transition: width .42s cubic-bezier(.16,1,.3,1),
+                  background-color .35s ease,
+                  border-color .35s ease,
+                  color .35s ease;
+    }
+    .call-state::before {
+      content: '';
+      width: 5px; height: 5px;
+      flex: none;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .85;
+    }
+    .call-demo.is-live .call-state {
+      color: #8FE0AE;
+      border-color: rgba(143,224,174,.34);
+      background: rgba(95,208,138,.1);
+    }
+    .call-state[data-p="2"] {
+      color: #F7F2EA;
+      border-color: rgba(199,122,74,.55);
+      background: rgba(199,122,74,.16);
+    }
+
+    /* -- D13 · the language wipe -------------------------------- */
+    .lang-wipe {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(-101%);
+      background: linear-gradient(90deg, #F7F2EA 0%, #F7F2EA 90%, rgba(199,122,74,.4) 100%);
+    }
+    .lang-wipe.run { animation: lang-sweep .8s cubic-bezier(.65,0,.35,1) forwards; }
+    .lang-wipe span {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: clamp(3.5rem, 11vw, 6rem);
+      letter-spacing: -.01em;
+      color: #1A3D31;
+      opacity: 0;
+    }
+    .lang-wipe.run span { animation: wipe-label .8s ease forwards; }
+    @keyframes lang-sweep {
+      0%       { transform: translateX(-101%); }
+      42%, 58% { transform: translateX(0); }
+      100%     { transform: translateX(101%); }
+    }
+    @keyframes wipe-label {
+      0%, 22%   { opacity: 0; }
+      38%, 64%  { opacity: 1; }
+      84%, 100% { opacity: 0; }
+    }
+
   </style>
 </head>
 <body class="bg-cream font-sans text-forest-dark antialiased">
 
 <!-- Grain overlay -->
 <div class="grain" aria-hidden="true"></div>
+<!-- DRAFT · D5 paper wash -->
+<div class="paper-wash" aria-hidden="true"></div>
 
 <!-- ============================================================
      NAV
@@ -538,7 +842,7 @@
 <!-- ============================================================
      EN - HERO
 ============================================================ -->
-<section id="hero-en" class="lang-section" data-lang="en">
+<section id="hero-en" class="lang-section hero-paper" data-lang="en">
   <div class="min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-28 pb-16">
     <div class="max-w-6xl mx-auto w-full">
 
@@ -547,9 +851,9 @@
         <span class="text-terracotta text-xs font-medium tracking-[0.14em] uppercase">AI consultant · Sweden</span>
       </div>
 
-      <h1 class="reveal d1 font-display font-semibold text-forest-dark leading-[1.06] tracking-[-0.02em] mb-8"
+      <h1 class="reveal d1 ink-host font-display font-semibold text-forest-dark leading-[1.06] tracking-[-0.02em] mb-8"
           style="font-size: clamp(2.6rem, 6.5vw, 5.25rem); max-width: 920px;">
-        I build AI that <em style="font-style:italic; color:#C77A4A;">answers your customers</em>
+        I build AI that <em class="ink-em" style="font-style:italic; color:#C77A4A;">answers your customers</em>
         when you can't, <br class="hidden sm:block" />and <em style="font-style:italic; color:#C77A4A;">takes the admin</em>
         off your desk.
       </h1>
@@ -949,30 +1253,30 @@
       <p class="text-xs text-muted uppercase tracking-[0.14em] font-bold">What I build on</p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
-      <div class="reveal d1 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Cloudflare</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Hosting &amp; edge</div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div class="reveal d1 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268zm2.7568-5.5634c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Cloudflare</span><span class="tech-role">Hosting &amp; edge</span></span>
       </div>
-      <div class="reveal d2 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">GitHub</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Source &amp; CI</div>
+      <div class="reveal d2 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">GitHub</span><span class="tech-role">Source &amp; CI</span></span>
       </div>
-      <div class="reveal d3 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Claude Code</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Build tooling</div>
+      <div class="reveal d3 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Claude Code</span><span class="tech-role">Build tooling</span></span>
       </div>
-      <div class="reveal d4 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Hermes Agent</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Build tooling</div>
+      <div class="reveal d4 tech-card">
+        <span class="tech-wordmark" role="img" aria-label="Hermes Agent"></span>
+        <span class="tech-copy"><span class="tech-role">Build tooling</span></span>
       </div>
-      <div class="reveal d1 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Codex</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Build tooling</div>
+      <div class="reveal d1 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Codex</span><span class="tech-role">Build tooling</span></span>
       </div>
-      <div class="reveal d2 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Google Workspace</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Email &amp; calendar</div>
+      <div class="reveal d2 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Google Workspace</span><span class="tech-role">Email &amp; calendar</span></span>
       </div>
     </div>
 
@@ -993,6 +1297,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
 
       <div class="reveal">
+        <figure class="portrait">
+          <img src="assets/yahya.jpg"
+               alt="Yahya Shihabe" loading="lazy" decoding="async" />
+          <figcaption>Yahya Shihabe · Sweden</figcaption>
+        </figure>
+
         <div class="relative pl-1">
           <span class="font-display text-[7rem] leading-none text-forest/10 select-none absolute -top-4 -left-3"
                 aria-hidden="true">"</span>
@@ -1060,7 +1370,7 @@
 <!-- ============================================================
      SV - HERO
 ============================================================ -->
-<section id="hero-sv" class="lang-section" data-lang="sv" style="display:none;">
+<section id="hero-sv" class="lang-section hero-paper" data-lang="sv" style="display:none;">
   <div class="min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-28 pb-16">
     <div class="max-w-6xl mx-auto w-full">
 
@@ -1069,9 +1379,9 @@
         <span class="text-terracotta text-xs font-medium tracking-[0.14em] uppercase">AI-konsult · Sverige</span>
       </div>
 
-      <h1 class="reveal d1 font-display font-semibold text-forest-dark leading-[1.06] tracking-[-0.02em] mb-8"
+      <h1 class="reveal d1 ink-host font-display font-semibold text-forest-dark leading-[1.06] tracking-[-0.02em] mb-8"
           style="font-size: clamp(2.6rem, 6.5vw, 5.25rem); max-width: 920px;">
-        Jag bygger AI som <em style="font-style:italic; color:#C77A4A;">svarar dina kunder</em>
+        Jag bygger AI som <em class="ink-em" style="font-style:italic; color:#C77A4A;">svarar dina kunder</em>
         när du inte kan, <br class="hidden sm:block" />och <em style="font-style:italic; color:#C77A4A;">tar administrationen</em>
         från ditt skrivbord.
       </h1>
@@ -1472,30 +1782,30 @@
       <p class="text-xs text-muted uppercase tracking-[0.14em] font-bold">Det jag bygger på</p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4">
-      <div class="reveal d1 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Cloudflare</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Hosting &amp; edge</div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div class="reveal d1 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268zm2.7568-5.5634c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Cloudflare</span><span class="tech-role">Hosting &amp; edge</span></span>
       </div>
-      <div class="reveal d2 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">GitHub</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Källkod &amp; CI</div>
+      <div class="reveal d2 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">GitHub</span><span class="tech-role">K&#228;llkod &amp; CI</span></span>
       </div>
-      <div class="reveal d3 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Claude Code</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Agentmiljö</div>
+      <div class="reveal d3 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Claude Code</span><span class="tech-role">Agentmilj&#246;</span></span>
       </div>
-      <div class="reveal d4 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Hermes Agent</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Agentmiljö</div>
+      <div class="reveal d4 tech-card">
+        <span class="tech-wordmark" role="img" aria-label="Hermes Agent"></span>
+        <span class="tech-copy"><span class="tech-role">Agentmilj&#246;</span></span>
       </div>
-      <div class="reveal d1 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Codex</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Agentmiljö</div>
+      <div class="reveal d1 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Codex</span><span class="tech-role">Agentmilj&#246;</span></span>
       </div>
-      <div class="reveal d2 card bg-white rounded-xl p-5 text-center border border-slate-100/80">
-        <div class="font-display font-semibold text-forest-dark text-sm mb-1">Google Workspace</div>
-        <div class="text-[0.6rem] text-muted uppercase tracking-wider">Mejl &amp; kalender</div>
+      <div class="reveal d2 tech-card">
+        <span class="tech-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg></span>
+        <span class="tech-copy"><span class="tech-name">Google Workspace</span><span class="tech-role">Mejl &amp; kalender</span></span>
       </div>
     </div>
 
@@ -1516,6 +1826,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
 
       <div class="reveal">
+        <figure class="portrait">
+          <img src="assets/yahya.jpg"
+               alt="Yahya Shihabe" loading="lazy" decoding="async" />
+          <figcaption>Yahya Shihabe · Sverige</figcaption>
+        </figure>
+
         <div class="relative pl-1">
           <span class="font-display text-[7rem] leading-none text-forest/10 select-none absolute -top-4 -left-3"
                 aria-hidden="true">"</span>
@@ -1653,6 +1969,9 @@
 <!-- ============================================================
      FOOTER
 ============================================================ -->
+<!-- DRAFT · D13 language wipe -->
+<div class="lang-wipe" aria-hidden="true"><span data-wipe-label>SV</span></div>
+
 <footer class="py-7 px-5 sm:px-8 border-t border-slate-100">
   <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
     <span class="text-xs text-muted">© 2026 Yahya Shihabe</span>
@@ -1661,6 +1980,10 @@
          class="hover:text-forest-dark transition-colors duration-200">
         yahya.shehabi1@gmail.com
       </a>
+      <button type="button" class="copy-mail" data-copy-mail="yahya.shehabi1@gmail.com" aria-label="Copy email address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        <span>Copy</span>
+      </button>
       <span class="text-slate-200 hidden sm:inline" aria-hidden="true">·</span>
       <a href="tel:+46704540794"
          class="hover:text-forest-dark transition-colors duration-200">
@@ -2246,6 +2569,228 @@ Cal("ui", {
   theme: "light",
   styles: { branding: { brandColor: "#2D5F4E" } },
 });
+</script>
+
+
+<script>
+/* ============================================================
+   MOTION LAYER · the effects on this page.
+   D1 ink · D5 paper · D12 state pill · D13 language wipe · D6 copy email
+============================================================ */
+(function () {
+  'use strict';
+
+  var html = document.documentElement;
+  var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- D1 · a pen draws under each rendered line ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+
+  function drawInk(host, animate) {
+    var em = host.querySelector('.ink-em');
+    if (!em) return false;
+
+    var old = host.querySelector('.ink-draw');
+    if (old) old.parentNode.removeChild(old);
+
+    var box = host.getBoundingClientRect();
+    var lines = [].slice.call(em.getClientRects()).filter(function (r) { return r.width > 10; });
+    if (!box.width || !lines.length) return false;
+
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'ink-draw');
+    svg.setAttribute('viewBox', '0 0 ' + Math.round(box.width) + ' ' + Math.round(box.height));
+    svg.setAttribute('aria-hidden', 'true');
+
+    var paths = lines.map(function (r) {
+      var x1 = r.left - box.left + 3;
+      var x2 = r.right - box.left - 3;
+      var y = r.bottom - box.top - r.height * 0.12;
+      var w = Math.max(10, x2 - x1);
+      var d = 'M' + x1.toFixed(1) + ' ' + (y + 1.5).toFixed(1) +
+              'C' + (x1 + w * 0.2).toFixed(1) + ' ' + (y - 1).toFixed(1) +
+              ' ' + (x1 + w * 0.38).toFixed(1) + ' ' + (y + 2.2).toFixed(1) +
+              ' ' + (x1 + w * 0.55).toFixed(1) + ' ' + (y + 0.7).toFixed(1) +
+              'S' + (x1 + w * 0.84).toFixed(1) + ' ' + (y - 0.8).toFixed(1) +
+              ' ' + x2.toFixed(1) + ' ' + (y + 0.6).toFixed(1);
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('fill', 'none');
+      p.setAttribute('stroke', '#1F2A24');
+      p.setAttribute('stroke-width', Math.max(1.5, r.height * 0.042).toFixed(2));
+      p.setAttribute('stroke-linecap', 'round');
+      p.setAttribute('stroke-linejoin', 'round');
+      svg.appendChild(p);
+      return p;
+    });
+
+    host.appendChild(svg);
+
+    var go = animate && !REDUCE;
+    paths.forEach(function (p) {
+      var len = p.getTotalLength();
+      p.style.strokeDasharray = len + 'px ' + (len + 2) + 'px';
+      p.style.strokeDashoffset = go ? (len + 'px') : '0px';
+    });
+
+    if (!go) return true;
+
+    /* a declared CSS animation, not a transition: its start value is read from
+       the element itself, so it never needs a previously painted frame */
+    paths.forEach(function (p, i) {
+      p.style.animation = 'ink-draw 580ms cubic-bezier(.35,.6,.35,1) forwards';
+      p.style.animationDelay = (420 + i * 660) + 'ms';
+    });
+
+    /* safety net: the finished line must exist even if a frame is dropped */
+    setTimeout(function () {
+      paths.forEach(function (p) { p.style.strokeDashoffset = '0px'; });
+    }, 420 + paths.length * 660 + 900);
+
+    return true;
+  }
+
+  function drawHeroInk(animate) {
+    var ok = true;
+    document.querySelectorAll('.ink-host').forEach(function (host) {
+      /* a hidden hero has no measurable lines, so don't judge it yet */
+      if (!host.getClientRects().length) return;
+      if (!drawInk(host, animate)) ok = false;
+    });
+    return ok;
+  }
+
+  var inkArmed = false;
+  function startInk() {
+    if (inkArmed) return;
+    inkArmed = true;
+    drawHeroInk(true);
+  }
+
+  /* nothing is drawn until the pen starts, so the line is never pre-existing */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(startInk);
+  }
+  setTimeout(startInk, 450);
+  window.addEventListener('load', function () { setTimeout(startInk, 60); });
+
+  var inkTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(inkTimer);
+    inkTimer = setTimeout(function () { drawHeroInk(false); }, 150);
+  });
+  document.addEventListener('motion:lang', function () {
+    inkArmed = true;
+    /* the incoming language needs a frame or two to lay out, so keep trying
+       until the hero it shows actually carries strokes */
+    var tries = 0;
+    setTimeout(function attempt() {
+      if (drawHeroInk(true) || ++tries > 10) return;
+      setTimeout(attempt, 160);
+    }, 420);
+  });
+
+  /* the frosted nav, on by default */
+  html.classList.add('frost');
+
+  /* ---------- D12 · pill that resizes as the call changes ---------- */
+  document.querySelectorAll('[data-call]').forEach(function (root) {
+    var state = root.querySelector('[data-state]');
+    if (!state) return;
+
+    function key() {
+      var t = (state.textContent || '').trim();
+      if (t === (state.dataset.ringing || '')) return '0';
+      if (t === (state.dataset.answering || '')) return '1';
+      if (t === (state.dataset.captured || '')) return '2';
+      return '0';
+    }
+
+    function fit(animate) {
+      if (state.getBoundingClientRect().width < 24) return;
+      var old = state.style.width;
+      state.style.width = 'auto';
+      var target = Math.ceil(state.getBoundingClientRect().width);
+      if (animate && old) {
+        state.style.width = old;
+        void state.offsetWidth;
+      }
+      state.style.width = target + 'px';
+    }
+
+    function sync(animate) {
+      state.setAttribute('data-p', key());
+      fit(animate);
+    }
+
+    new MutationObserver(function () { sync(true); })
+      .observe(state, { childList: true, characterData: true, subtree: true });
+
+    sync(false);
+    window.addEventListener('load', function () { sync(false); });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { sync(false); });
+    }
+    document.addEventListener('motion:lang', function () {
+      setTimeout(function () { sync(false); }, 450);
+    });
+  });
+
+  /* ---------- D13 · the language wipe ---------- */
+  var originalSetLang = window.setLang;
+  var booted = false;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () { booted = true; }, 150);
+  });
+
+  if (typeof originalSetLang === 'function') {
+    window.setLang = function (lang) {
+      var target = lang === 'sv' ? 'sv' : 'en';
+      var wipe = document.querySelector('.lang-wipe');
+
+      if ((!booted || REDUCE || !wipe) || document.documentElement.lang === target) {
+        return originalSetLang(lang);
+      }
+
+      var label = wipe.querySelector('[data-wipe-label]');
+      if (label) label.textContent = target.toUpperCase();
+
+      wipe.classList.remove('run');
+      void wipe.offsetWidth;
+      wipe.classList.add('run');
+
+      setTimeout(function () { originalSetLang(lang); }, 370);
+      setTimeout(function () { wipe.classList.remove('run'); }, 840);
+    };
+  }
+
+  /* ---------- D6 · copy the email, confirm in place ---------- */
+  document.querySelectorAll('[data-copy-mail]').forEach(function (btn) {
+    var mail = btn.dataset.copyMail;
+    var original = btn.querySelector('span') ? btn.querySelector('span').textContent : 'Copy';
+    var timer = null;
+
+    function done(ok) {
+      var label = btn.querySelector('span');
+      if (label) label.textContent = ok ? 'Copied' : 'Select';
+      btn.classList.toggle('is-copied', ok);
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        if (label) label.textContent = original;
+        btn.classList.remove('is-copied');
+      }, 1700);
+    }
+
+    btn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(mail).then(function () { done(true); }, function () { done(false); });
+        return;
+      }
+      done(false);
+    });
+  });
+})();
 </script>
 
 </body>

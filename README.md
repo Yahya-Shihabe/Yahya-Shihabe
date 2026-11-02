@@ -32,6 +32,7 @@ robots.txt      allow all, absolute sitemap URL
 sitemap.xml     both language URLs, with hreflang alternates
 og.png          1200x630 social card
 favicon.svg     YS monogram
+assets/         portrait (yahya.jpg) and the Hermes Agent lockup
 ```
 
 No build step, no framework, no runtime dependencies. Styling is Tailwind (CDN) with
