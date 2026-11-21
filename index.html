@@ -511,9 +511,6 @@
 
     /* -- D1 · a pen under the words, one rendered line at a time - */
     .ink-host { position: relative; isolation: isolate; }
-    @keyframes ink-draw {
-      to { stroke-dashoffset: 0; }
-    }
     .ink-draw {
       position: absolute;
       inset: 0;
@@ -523,6 +520,10 @@
       overflow: visible;
       pointer-events: none;
     }
+
+    /* -- D1a · the hero stands still while the pen draws --------- */
+    .hero-runway { position: relative; }
+    .hero-runway.is-staged > .hero-paper { position: sticky; top: 0; }
 
     /* -- D6 · microinteractions --------------------------------- */
     .btn-cta svg, .btn-ghost svg {
@@ -840,6 +841,7 @@
 <!-- ============================================================
      EN - HERO
 ============================================================ -->
+<div class="hero-runway" data-hero-runway>
 <section id="hero-en" class="lang-section hero-paper" data-lang="en">
   <div class="min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-28 pb-16">
     <div class="max-w-6xl mx-auto w-full">
@@ -898,6 +900,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============================================================
      EN - THE CORRECTION
@@ -1368,6 +1371,7 @@
 <!-- ============================================================
      SV - HERO
 ============================================================ -->
+<div class="hero-runway" data-hero-runway>
 <section id="hero-sv" class="lang-section hero-paper" data-lang="sv" style="display:none;">
   <div class="min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-28 pb-16">
     <div class="max-w-6xl mx-auto w-full">
@@ -1426,6 +1430,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============================================================
      SV - RÄTTELSEN
@@ -2581,26 +2586,49 @@ Cal("ui", {
   var html = document.documentElement;
   var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- D1 · a pen draws under each rendered line ---------- */
+  /* ---------- D1 · a pen draws under each rendered line ----------
+     The hero is a stage: the first stretch of scrolling is spent on the pen
+     while the hero is held in place, so the page itself does not move until
+     the line is complete. The pen is read from the scroll position, never
+     from a timer, so it holds when scrolling stops and retraces on the way
+     back up. */
   var NS = 'http://www.w3.org/2000/svg';
+  var SCRUB_SHARE = 0.25;
+  var SCRUB_MIN = 160;
 
-  function drawInk(host, animate) {
+  var runways = [].slice.call(document.querySelectorAll('[data-hero-runway]'));
+  var hosts = [].slice.call(document.querySelectorAll('.ink-host'));
+  var strokes = [];
+  var range = SCRUB_MIN;
+
+  function visibleHero(runway) {
+    var hero = runway.querySelector('.hero-paper');
+    if (!hero || !hero.getClientRects().length) return null;
+    var lang = hero.getAttribute('data-lang');
+    if (lang && lang !== document.documentElement.lang) return null;
+    return hero;
+  }
+
+  function buildInk(host) {
     var em = host.querySelector('.ink-em');
-    if (!em) return false;
+    if (!em) return;
 
     var old = host.querySelector('.ink-draw');
     if (old) old.parentNode.removeChild(old);
 
     var box = host.getBoundingClientRect();
     var lines = [].slice.call(em.getClientRects()).filter(function (r) { return r.width > 10; });
-    if (!box.width || !lines.length) return false;
+    if (!box.width || !lines.length) return;
 
     var svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'ink-draw');
     svg.setAttribute('viewBox', '0 0 ' + Math.round(box.width) + ' ' + Math.round(box.height));
     svg.setAttribute('aria-hidden', 'true');
 
-    var paths = lines.map(function (r) {
+    var paths = [];
+    var lens = [];
+
+    lines.forEach(function (r) {
       var x1 = r.left - box.left + 3;
       var x2 = r.right - box.left - 3;
       var y = r.bottom - box.top - r.height * 0.12;
@@ -2611,6 +2639,7 @@ Cal("ui", {
               ' ' + (x1 + w * 0.55).toFixed(1) + ' ' + (y + 0.7).toFixed(1) +
               'S' + (x1 + w * 0.84).toFixed(1) + ' ' + (y - 0.8).toFixed(1) +
               ' ' + x2.toFixed(1) + ' ' + (y + 0.6).toFixed(1);
+
       var p = document.createElementNS(NS, 'path');
       p.setAttribute('d', d);
       p.setAttribute('fill', 'none');
@@ -2619,71 +2648,92 @@ Cal("ui", {
       p.setAttribute('stroke-linecap', 'round');
       p.setAttribute('stroke-linejoin', 'round');
       svg.appendChild(p);
-      return p;
+      paths.push(p);
+      lens.push(p.getTotalLength());
     });
 
     host.appendChild(svg);
 
-    var go = animate && !REDUCE;
-    paths.forEach(function (p) {
-      var len = p.getTotalLength();
-      p.style.strokeDasharray = len + 'px ' + (len + 2) + 'px';
-      p.style.strokeDashoffset = go ? (len + 'px') : '0px';
-    });
+    var total = lens.reduce(function (a, b) { return a + b; }, 0);
 
-    if (!go) return true;
-
-    /* a declared CSS animation, not a transition: its start value is read from
-       the element itself, so it never needs a previously painted frame */
     paths.forEach(function (p, i) {
-      p.style.animation = 'ink-draw 580ms cubic-bezier(.35,.6,.35,1) forwards';
-      p.style.animationDelay = (420 + i * 660) + 'ms';
+      p.style.strokeDasharray = lens[i] + 'px ' + (lens[i] + 2) + 'px';
+      p.style.strokeDashoffset = lens[i] + 'px';
+      p.style.opacity = '0';
     });
 
-    /* safety net: the finished line must exist even if a frame is dropped */
-    setTimeout(function () {
-      paths.forEach(function (p) { p.style.strokeDashoffset = '0px'; });
-    }, 420 + paths.length * 660 + 900);
-
-    return true;
+    strokes.push({ paths: paths, lens: lens, total: total });
   }
 
-  function drawHeroInk(animate) {
-    var ok = true;
-    document.querySelectorAll('.ink-host').forEach(function (host) {
-      /* a hidden hero has no measurable lines, so don't judge it yet */
-      if (!host.getClientRects().length) return;
-      if (!drawInk(host, animate)) ok = false;
+  /* the stage: hold the hero for exactly as much scroll as the pen needs */
+  function stage() {
+    var vh = window.innerHeight || 800;
+    range = Math.max(SCRUB_MIN, Math.round(vh * SCRUB_SHARE));
+
+    runways.forEach(function (runway) {
+      runway.classList.remove('is-staged');
+      runway.style.height = '';
+      var hero = visibleHero(runway);
+      if (!hero || REDUCE) return;
+      /* the hero keeps its natural height and only the runway grows, so a hero
+         taller than the window is held from the top and never cut off */
+      runway.style.height = Math.round(hero.getBoundingClientRect().height) + range + 'px';
+      runway.classList.add('is-staged');
     });
-    return ok;
   }
 
-  var inkArmed = false;
-  function startInk() {
-    if (inkArmed) return;
-    inkArmed = true;
-    drawHeroInk(true);
+  function inkProgress() {
+    if (REDUCE) return 1;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var p = y / range;
+    return p < 0 ? 0 : p > 1 ? 1 : p;
   }
 
-  /* nothing is drawn until the pen starts, so the line is never pre-existing */
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(startInk);
+  function paintInk() {
+    var p = inkProgress();
+    strokes.forEach(function (s) {
+      var drawn = s.total * p;
+      var acc = 0;
+      s.paths.forEach(function (path, i) {
+        var len = s.lens[i];
+        var own = Math.min(Math.max(drawn - acc, 0), len);
+        acc += len;
+        path.style.strokeDashoffset = (len - own) + 'px';
+        path.style.opacity = own > 0.4 ? '1' : '0';
+      });
+    });
   }
-  setTimeout(startInk, 450);
-  window.addEventListener('load', function () { setTimeout(startInk, 60); });
+
+  function measureInk() {
+    strokes = [];
+    stage();
+    hosts.forEach(buildInk);
+    paintInk();
+  }
+
+  /* browsers deliver one scroll event per frame: paint straight from it, so the
+     pen always sits at the real scroll position */
+  window.addEventListener('scroll', paintInk, { passive: true });
 
   var inkTimer;
   window.addEventListener('resize', function () {
     clearTimeout(inkTimer);
-    inkTimer = setTimeout(function () { drawHeroInk(false); }, 150);
+    inkTimer = setTimeout(measureInk, 150);
   });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measureInk);
+  }
+  setTimeout(measureInk, 450);
+  window.addEventListener('load', function () { setTimeout(measureInk, 60); });
+
   document.addEventListener('motion:lang', function () {
-    inkArmed = true;
     /* the incoming language needs a frame or two to lay out, so keep trying
        until the hero it shows actually carries strokes */
     var tries = 0;
     setTimeout(function attempt() {
-      if (drawHeroInk(true) || ++tries > 10) return;
+      measureInk();
+      if (strokes.length || ++tries > 10) return;
       setTimeout(attempt, 160);
     }, 420);
   });
